@@ -25,20 +25,27 @@ User = get_user_model()
 def admin_login(request):
     email = request.data.get("email")
     password = request.data.get("password")
-    if email is None or password is None:
-        return Response({'error': 'Provide email and password'}, status=HTTP_400_BAD_REQUEST)
 
-    user = authenticate(request, username=email, password=password)
-    if not user or not user.is_admin:
-        return Response({'error': 'Invalid credentials or not admin'}, status=HTTP_403_FORBIDDEN)
+    if not email or not password:
+        return Response({'error': 'Provide email and password'}, status=status.HTTP_400_BAD_REQUEST)
 
-    login(request, user)
+    # Authenticate using email (since custom USERNAME_FIELD = 'email')
+    user = authenticate(request, email=email, password=password)
+
+    if user is None or not user.is_admin:
+        return Response({'error': 'Invalid credentials or not admin'}, status=status.HTTP_403_FORBIDDEN)
+
+    login(request, user)  # Optional if using session auth
     token, _ = Token.objects.get_or_create(user=user)
 
     return Response({
         'message': 'Logged in successfully',
-        'token': token.key  # Send token to frontend
-    }, status=HTTP_200_OK)
+        'token': token.key,
+        'user': {
+            'email': user.email,
+            'name': user.name,
+        }
+    }, status=status.HTTP_200_OK)
 
 
 
