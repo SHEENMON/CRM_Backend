@@ -81,18 +81,12 @@ class StaffSerializer(serializers.ModelSerializer):
 # Customer Serializer
 # ==========================
 class CustomerSerializer(serializers.ModelSerializer):
-    photo_url = serializers.SerializerMethodField()
     class Meta:
         model = Customer
-        fields = ['id', 'user','full_name','email', 'gender', 'phone_number', 'photo', 'photo_url', 'date_of_birth', 'added_on', 'is_active']
+        fields = ['id', 'user','full_name','email', 'gender', 'phone_number', 'photo', 'date_of_birth', 'added_on', 'is_active']
         read_only_fields = ['user', 'added_on', 'photo_url']
     
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
         return super().create(validated_data)
-
-    def get_photo_url(self, obj):
-        request = self.context.get('request')  
-        if obj.photo and request:              
-            return request.build_absolute_uri(obj.photo.url)  
-        return None    
+   
