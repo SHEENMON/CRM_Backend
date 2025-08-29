@@ -40,6 +40,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",            # local dev
     "https://crmprj.netlify.app",       # production frontend
+    "https://crm-backend-vtrn.onrender.com",       # production backend
 ]
 
 ROOT_URLCONF = 'CRM_backend.urls'
@@ -64,11 +65,14 @@ WSGI_APPLICATION = 'CRM_backend.wsgi.application'
 
 # Database
 DATABASES = {
-    "default": dj_database_url.config(
-        default=config("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=True
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+    }
 }
 
 # REST Framework
