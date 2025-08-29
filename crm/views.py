@@ -36,7 +36,7 @@ def admin_login(request):
     token, _ = Token.objects.get_or_create(user=user)
     return Response({
         'message': 'Logged in successfully',
-        'token': token.key  # Send token to frontend
+        'token': token.key  
     }, status=HTTP_200_OK)
 
 

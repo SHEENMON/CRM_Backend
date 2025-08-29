@@ -38,9 +38,9 @@ MIDDLEWARE = [
 
 # CORS
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",            # local dev
-    "https://crmprj.netlify.app",       # production frontend
-    "https://crm-backend-vtrn.onrender.com",       # production backend
+    "http://localhost:3000",            #
+    "https://crmprj.netlify.app",      
+    "https://crm-backend-vtrn.onrender.com",      
 ]
 
 ROOT_URLCONF = 'CRM_backend.urls'
