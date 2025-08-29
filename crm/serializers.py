@@ -48,10 +48,10 @@ class DepartmentSerializer(serializers.ModelSerializer):
 # Manager Serializer
 # ==========================
 class ManagerSerializer(serializers.ModelSerializer):
-    department = DepartmentSerializer(read_only=True)
+    department_name = serializers.CharField(source="department.name", read_only=True)
     class Meta:
         model = Manager
-        fields = ['id', 'user','full_name','email', 'department', 'phone_number', 'team_name', 'added_on', 'is_active']
+        fields = ['id', 'user','full_name','email', 'department','department_name', 'phone_number', 'team_name', 'added_on', 'is_active']
         read_only_fields = ['user','added_on']
 
     def create(self, validated_data):
